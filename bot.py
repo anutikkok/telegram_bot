@@ -32,7 +32,6 @@ chat_id = message_from_user.chat.id
 def echo_all(message):
     select_street_query = "SELECT DISTINCT grouping_data FROM address_street WHERE address_street.grouping_data LIKE '%"+ message.text +"%' OR address_street.grouping_data LIKE '%"+ message.text.title() +"%' "
     street_list = db.query(select_street_query)
-    print(len(street_list))
     if len(street_list) > 50:
         query = "SELECT info_com FROM commands WHERE id = 4"
         result = db.query(query)
@@ -49,19 +48,27 @@ def echo_all(message):
             while i == 1:
                 for street in street_list:
                     markup.row(street)
-                bot.send_message(message.chat.id, "Выберите улицу:", reply_markup=markup)
-                i = i - 1
+                bot.send_message(message.chat.id, "Продолжим:", reply_markup=markup)
+                i = 0
                 #keyboard_hider = types.ReplyKeyboardHide()
                 #bot.send_message(chat_id, 'Спасибо за то, что с нами. Приятной работы.', reply_markup=keyboard_hider)
-            print(message.text, "Сообщение")
             str_list = message.text
             select_street_id = "SELECT address_street.id FROM address_street WHERE address_street.grouping_data LIKE '" + str_list + "'"
             street_id = db.query(select_street_id) # Запрос на выборку id улицы
             for id in street_id:
                 pope = "SELECT address_build.number FROM address_build WHERE address_build.street_id = " + str(id)
                 result2 = db.query(pope)
+                f = open("itog.txt", "w")
                 for res in result2:
-                    bot.reply_to(message, res)
+                    #bot.reply_to(message, res)
+                    f.write('д.' + str(res) + ', ' + str(str_list) + '; \n\n')
+                f.close()
+                f = open("itog.txt", "r")
+                bot.reply_to(message, 'Данные поиска сохранены в файле:')
+                bot.send_document(message.chat.id, f)
+                f.close()
+
+
 
     # TODO: Необходимо создать клавиатуру
     # TODO: От клавиатуры получим точное название улицы, после чего выбираем дома
