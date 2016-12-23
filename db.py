@@ -31,7 +31,7 @@ class SqlMgr:
                 row = cur.fetchone()
                 if row == None:
                     break
-                rows.append(row)
+                rows.append(row[0])
         except lite.Error as e:
             print("Error %s:" % e.args[0])
         # sys.exit(1)
@@ -39,12 +39,14 @@ class SqlMgr:
 
 def query(query):
     sqlmgr = SqlMgr()
-    print("the first element in rows will be the column names.")
+    #print("the first element in rows will be the column names.")
     rows = sqlmgr.query(query)
     cols = rows.pop(0)
 
-    print("column names")
-    print(cols)
-    print("data")
+
+   # print("column names")
+    #print(cols)
+    #print("data")
     print(rows)
+    return rows
 
