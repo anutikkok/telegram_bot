@@ -50,8 +50,6 @@ def echo_all(message):
                     markup.row(street)
                 bot.send_message(message.chat.id, "Продолжим:", reply_markup=markup)
                 i = 0
-                #keyboard_hider = types.ReplyKeyboardHide()
-                #bot.send_message(chat_id, 'Спасибо за то, что с нами. Приятной работы.', reply_markup=keyboard_hider)
             str_list = message.text
             select_street_id = "SELECT address_street.id FROM address_street WHERE address_street.grouping_data LIKE '" + str_list + "'"
             street_id = db.query(select_street_id) # Запрос на выборку id улицы
@@ -67,6 +65,8 @@ def echo_all(message):
                 bot.reply_to(message, 'Данные поиска сохранены в файле:')
                 bot.send_document(message.chat.id, f)
                 f.close()
+                keyboard_hider = types.ReplyKeyboardHide()
+                bot.send_message(message.chat.id, 'Спасибо за то, что с нами. Приятной работы.', reply_markup=keyboard_hider)
 
 
 
