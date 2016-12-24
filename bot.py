@@ -60,13 +60,13 @@ def echo_all(message):
                 for res in result2:
                     #bot.reply_to(message, res)
                     f.write('д.' + str(res) + ', ' + str(str_list) + '; \n\n')
+                keyboard_hider = types.ReplyKeyboardHide()
+                bot.send_message(message.chat.id, 'Вы можете скачать файл. Спасибо за то, что с нами. Приятной работы.', reply_markup=keyboard_hider)
                 f.close()
                 f = open("itog.txt", "r")
-                bot.reply_to(message, 'Данные поиска сохранены в файле:')
                 bot.send_document(message.chat.id, f)
                 f.close()
-                keyboard_hider = types.ReplyKeyboardHide()
-                bot.send_message(message.chat.id, 'Спасибо за то, что с нами. Приятной работы.', reply_markup=keyboard_hider)
+
 
 
 
